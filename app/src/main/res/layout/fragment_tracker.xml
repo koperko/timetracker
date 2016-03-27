@@ -1,0 +1,66 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:id="@+id/fragment_tracker"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:focusableInTouchMode="true"
+              android:gravity="center"
+              android:orientation="vertical"
+              android:paddingBottom="@dimen/activity_vertical_margin"
+              android:paddingLeft="@dimen/activity_horizontal_margin"
+              android:paddingRight="@dimen/activity_horizontal_margin"
+              android:paddingTop="@dimen/activity_vertical_margin"
+              tools:context=".MainActivity$PlaceholderFragment">
+
+
+    <Chronometer
+        android:id="@+id/timer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingBottom="20dp"
+        android:textSize="35pt"/>
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/start"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_gravity="center"
+        android:foreground="?android:selectableItemBackground"
+        app:cardBackgroundColor="@color/start_green"
+        app:cardCornerRadius="75dp"
+        app:cardElevation="5dp">
+
+        <ImageView
+            android:id="@+id/start_icon"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_play_arrow_white_48dp"/>
+    </android.support.v7.widget.CardView>
+
+    <TextView
+        android:id="@+id/project_name"
+        android:layout_width="250dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:text="Pick your activity"
+        android:background="?android:selectableItemBackground"/>
+
+
+    <EditText
+        android:id="@+id/description"
+        android:layout_width="250dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:hint="@string/description_hint"
+        android:nextFocusLeft="@id/description"
+        android:nextFocusUp="@id/description"
+        android:singleLine="false"/>
+
+
+</LinearLayout>

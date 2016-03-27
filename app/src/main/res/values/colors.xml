@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="start_orange">#FB8C00</color>
+    <color name="start_green">#43A047</color>
+    <color name="green_light">#E8F5E9</color>
+    <color name="orange_light">#FFF3E0</color>
+
+    <color name="red_light">#FFEBEE</color>
+    <color name="red">#F44336</color>
+
+    <color name="blue_light">#E3F2FD</color>
+    <color name="blue">#2196F3</color>
+
+    <color name="yellow_light">#FFFDE7</color>
+    <color name="yellow">#FFEB3B</color>
+
+</resources>

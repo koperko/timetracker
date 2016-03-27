@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="5dp"
+                                    android:clickable="true"
+                                    android:focusable="true"
+                                    android:minHeight="80dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center_vertical">
+
+        <ImageView
+            android:id="@+id/card_icon"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:adjustViewBounds="true"
+            android:src="@drawable/ic_android"/>
+
+        <TextView
+            android:id="@+id/card_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/card_time_spent"
+            android:layout_toRightOf="@id/card_icon"
+            android:gravity="center_vertical"
+            android:minHeight="50dp"
+            android:paddingLeft="15dp"
+            android:textSize="22dp"/>
+
+        <TextView
+            android:id="@+id/card_time_spent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/card_edit_btn"
+            android:padding="15dp"
+            android:text="134:23"/>
+
+        <ImageButton
+            android:id="@+id/card_edit_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:background="?android:selectableItemBackground"
+            android:focusable="false"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_edit"/>
+    </RelativeLayout>
+</android.support.v7.widget.CardView>
