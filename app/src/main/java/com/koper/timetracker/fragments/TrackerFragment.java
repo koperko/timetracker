@@ -96,9 +96,9 @@ public class TrackerFragment extends Fragment {
             public void onClick(View v) {
                 fProjectSelectionFragment = ProjectSelectionFragment.newInstance();
                 getFragmentManager().beginTransaction()
-                        .addToBackStack("projectSelection")
+                        .addToBackStack(null)
                         .setCustomAnimations(android.R.anim.slide_in_left, 0, 0, android.R.anim.slide_out_right)
-                        .add(R.id.container, fProjectSelectionFragment)
+                        .add(R.id.container, fProjectSelectionFragment, ProjectSelectionFragment.TAG)
                         .commit();
             }
         });

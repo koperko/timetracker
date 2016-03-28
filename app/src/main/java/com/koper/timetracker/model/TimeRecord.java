@@ -4,9 +4,6 @@ import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 
-/**
- * Created by koper on 05.03.16.
- */
 @Table(name = "TimeRecord")
 public class TimeRecord extends Model{
 
@@ -16,7 +13,7 @@ public class TimeRecord extends Model{
     private long fStopTime;
     @Column(name = "description")
     private String fDescription;
-    @Column(name = "project", index = true)
+    @Column(name = "project", index = true, onUpdate = Column.ForeignKeyAction.CASCADE, onDelete = Column.ForeignKeyAction.CASCADE)
     private Project fAssignedProject;
 
     public TimeRecord() {

@@ -17,12 +17,9 @@ import android.widget.RelativeLayout;
 import com.koper.timetracker.R;
 import com.koper.timetracker.adapters.ProjectsAdapter;
 
-import java.util.ArrayList;
-
-/**
- * Created by Matus on 08.02.2016.
- */
 public class ProjectSelectionFragment extends Fragment {
+
+    public static final String TAG = ProjectSelectionFragment.class.getSimpleName();
 
     private static final String ARG_PROJECTS = "available_projects";
     RelativeLayout fRootView;
@@ -32,6 +29,7 @@ public class ProjectSelectionFragment extends Fragment {
 
     private FloatingActionButton fFab;
     private TrackerFragment fTrackerFragment;
+    private ProjectsAdapter fAdapter;
 
     public static ProjectSelectionFragment newInstance() {
 
@@ -60,8 +58,8 @@ public class ProjectSelectionFragment extends Fragment {
         fFab = (FloatingActionButton)fRootView.findViewById(R.id.projects_add);
         fProjects = (RecyclerView) fRootView.findViewById(R.id.projects_list);
         fProjects.setLayoutManager(new LinearLayoutManager(getContext()));
-        final ProjectsAdapter mAdapter = new ProjectsAdapter(fTrackerFragment);
-        fProjects.setAdapter(mAdapter);
+        fAdapter = new ProjectsAdapter(fTrackerFragment);
+        fProjects.setAdapter(fAdapter);
         fSearch.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -75,7 +73,7 @@ public class ProjectSelectionFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-                mAdapter.filterDataSet(s.toString());
+                fAdapter.filterDataSet(s.toString());
             }
         });
         fFab.setOnClickListener(new View.OnClickListener() {
@@ -88,4 +86,9 @@ public class ProjectSelectionFragment extends Fragment {
         return fRootView;
     }
 
+    public void onAddedProject(String aProjectName) {
+        fSearch.setText(aProjectName);
+        fAdapter.refreshDataSet();
+        fAdapter.filterDataSet(aProjectName);
+    }
 }

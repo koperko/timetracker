@@ -1,5 +1,6 @@
 package com.koper.timetracker.adapters;
 
+import android.support.v4.util.ArrayMap;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.DateFormat;
@@ -15,17 +16,19 @@ import com.koper.timetracker.model.Project;
 import com.koper.timetracker.model.TimeRecord;
 import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
 
+import org.joda.time.DateTime;
+import org.joda.time.Days;
+import org.joda.time.MutableDateTime;
 import org.w3c.dom.Text;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
-/**
- * Created by koper on 25.03.16.
- */
 public class HistoryRecordsAdapter extends RecyclerView.Adapter<HistoryRecordsAdapter.ViewHolder> implements StickyRecyclerHeadersAdapter<HistoryRecordsAdapter.HeaderViewHolder> {
 
     private List<TimeRecord> fRecords;
+    private Map<Long, Boolean> fHeaderIds = new ArrayMap<>();
 
     public HistoryRecordsAdapter() {
         fRecords = new Select().all().from(TimeRecord.class).orderBy("start_time DESC").execute();
@@ -50,7 +53,9 @@ public class HistoryRecordsAdapter extends RecyclerView.Adapter<HistoryRecordsAd
 
     @Override
     public long getHeaderId(int position) {
-        return DateFormat.format("dd.MM.yyyy", new Date(fRecords.get(position).getStartTime())).hashCode();
+        long dateEpochTime = fRecords.get(position).getStartTime() / (1000 * 60 * 60 * 24); // get number of days from epoch time
+        fHeaderIds.put(dateEpochTime, true);
+        return dateEpochTime;
     }
 
     @Override

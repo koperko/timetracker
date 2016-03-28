@@ -4,6 +4,8 @@ package com.koper.timetracker.fragments;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -15,6 +17,8 @@ import android.widget.LinearLayout;
 import com.koper.timetracker.R;
 import com.koper.timetracker.adapters.ColorAdapter;
 import com.koper.timetracker.model.Project;
+import com.mikepenz.google_material_typeface_library.GoogleMaterial;
+import com.mikepenz.iconics.IconicsDrawable;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -29,8 +33,6 @@ public class AddProjectFragment extends Fragment {
     EditText fAddProjectName;
     @Bind(R.id.add_project_color)
     GridView fAddProjectColor;
-    @Bind(R.id.add_project_save_btn)
-    Button fAddProjectSaveBtn;
     private int fColorInt;
     private int fColorPosition;
 
@@ -38,6 +40,12 @@ public class AddProjectFragment extends Fragment {
         // Required empty public constructor
     }
 
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -57,6 +65,7 @@ public class AddProjectFragment extends Fragment {
         });
         fAddProjectColor.setAdapter(new ColorAdapter(getContext()));
 
+        getActivity().getActionBar();
 
         return mRootView;
     }
@@ -68,9 +77,26 @@ public class AddProjectFragment extends Fragment {
         ButterKnife.unbind(this);
     }
 
-    @OnClick(R.id.add_project_save_btn)
     public void saveProject() {
         new Project(fAddProjectName.getText().toString(), R.drawable.ic_android, fColorInt).save();
+        ((ProjectSelectionFragment)getFragmentManager().findFragmentByTag(ProjectSelectionFragment.TAG)).onAddedProject(fAddProjectName.getText().toString());
         getFragmentManager().popBackStack();
+    }
+
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        MenuItem mItem = menu.findItem(R.id.action_save);
+        mItem.setVisible(true);
+        super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_save) {
+            saveProject();
+            return true;
+        }
+        return false;
     }
 }

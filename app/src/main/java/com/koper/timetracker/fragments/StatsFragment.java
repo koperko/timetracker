@@ -13,8 +13,11 @@ import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.formatter.ValueFormatter;
+import com.github.mikephil.charting.interfaces.datasets.IPieDataSet;
+import com.github.mikephil.charting.utils.ColorTemplate;
+import com.github.mikephil.charting.utils.ViewPortHandler;
 import com.koper.timetracker.R;
-import com.koper.timetracker.model.Project;
 import com.koper.timetracker.model.TimeRecord;
 
 import java.util.ArrayList;
@@ -37,6 +40,8 @@ public class StatsFragment extends Fragment {
     PieChart fFragmentStatsPie;
     private ArrayMap<String, Long> fProjects;
     private List<TimeRecord> fTimeRecords;
+    private ArrayList<String> fProjectNames = new ArrayList<>();
+    private ArrayList<Entry> mEntries = new ArrayList<>();
 
 
     public static StatsFragment newInstance() {
@@ -60,18 +65,15 @@ public class StatsFragment extends Fragment {
         fTimeRecords = new Select().all().from(TimeRecord.class).execute();
         fProjects = new ArrayMap<>();
         for (TimeRecord o : fTimeRecords) {
-            String mProject = o.getAssignedProject().getName();
+            String mProject = o.getAssignedProject() != null ? o.getAssignedProject().getName() : "No project";
             Long mCurrentVal = fProjects.get(mProject) != null ? fProjects.get(mProject) : 0;
             fProjects.put(mProject, mCurrentVal + (o.getStopTime() - o.getStartTime()));
         }
-        List<String> mProjectNames = new ArrayList<>();
-        mProjectNames.addAll(fProjects.keySet());
-        List<Entry> mEntries = new ArrayList<>();
+        fProjectNames.addAll(fProjects.keySet());
         int mIndexCounter = 0;
         for (Map.Entry<String, Long> o : fProjects.entrySet()) {
             mEntries.add(new Entry(o.getValue(), mIndexCounter++));
         }
-        fFragmentStatsPie.setData(new PieData(mProjectNames, new PieDataSet(mEntries, "label")));
     }
 
     @Override
@@ -80,8 +82,39 @@ public class StatsFragment extends Fragment {
         // Inflate the layout for this fragment
         View mRoot = inflater.inflate(R.layout.fragment_stats, container, false);
         ButterKnife.bind(this, mRoot);
+        PieDataSet mDataSet = new PieDataSet(mEntries, "");
+        mDataSet.setSliceSpace(2);
 
-        fFragmentStatsPie.setData(new PieData());
+        ArrayList<Integer> mColors = new ArrayList<>();
+
+        for (int c : ColorTemplate.VORDIPLOM_COLORS)
+            mColors.add(c);
+
+        for (int c : ColorTemplate.JOYFUL_COLORS)
+            mColors.add(c);
+
+        for (int c : ColorTemplate.COLORFUL_COLORS)
+            mColors.add(c);
+
+        for (int c : ColorTemplate.LIBERTY_COLORS)
+            mColors.add(c);
+
+        for (int c : ColorTemplate.PASTEL_COLORS)
+            mColors.add(c);
+
+        mColors.add(ColorTemplate.getHoloBlue());
+        mDataSet.setColors(mColors);
+        mDataSet.setValueFormatter(new ValueFormatter() {
+            @Override
+            public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
+                return value + " %";
+            }
+        });
+
+        fFragmentStatsPie.setData(new PieData(fProjectNames, mDataSet));
+        fFragmentStatsPie.setDescription("");
+        fFragmentStatsPie.setUsePercentValues(true);
+
 
         return mRoot;
     }

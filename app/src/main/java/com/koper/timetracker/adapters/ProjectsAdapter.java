@@ -15,21 +15,19 @@ import com.koper.timetracker.model.Project;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by koper on 19.12.15.
- */
 public class ProjectsAdapter extends RecyclerView.Adapter<ProjectsAdapter.ViewHolder> {
 
     private List<Project> fAllProjects = new Select().all().from(Project.class).execute();
-    private List<Project> fProjects;
+    private List<Project> fProjects = new ArrayList<>();
     private TrackerFragment fTrackerFragment;
 
 
     public ProjectsAdapter(TrackerFragment aTrackerFragment) {
         fTrackerFragment = aTrackerFragment;
-        fProjects = new ArrayList<>(fAllProjects.subList(0, fAllProjects.size()-1));
+            if(fAllProjects.size() > 0) {
+                fProjects.addAll(fAllProjects.subList(0, fAllProjects.size()));
+            }
     }
-//    private ArrayMap<Integer, Bitmap> fRawIconBitmaps = new ArrayMap<>();
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup aParent, int aViewType) {
@@ -42,7 +40,7 @@ public class ProjectsAdapter extends RecyclerView.Adapter<ProjectsAdapter.ViewHo
         holder.getCard().findViewById(R.id.card_edit_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                //TODO: open new fragment for project modification
             }
         });
 
@@ -59,6 +57,12 @@ public class ProjectsAdapter extends RecyclerView.Adapter<ProjectsAdapter.ViewHo
     @Override
     public int getItemCount() {
         return fProjects.size();
+    }
+
+    public void refreshDataSet(){
+        fAllProjects = new Select().all().from(Project.class).execute();
+        fProjects.clear();
+        fProjects.addAll(fAllProjects);
     }
 
     public void filterDataSet(String aProjectName) {
